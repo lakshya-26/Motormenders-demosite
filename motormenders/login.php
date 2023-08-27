@@ -1,0 +1,20 @@
+<?php
+ob_start();
+session_start();
+include_once("dbconnect.php");
+$username="";
+$password="";
+$sql="";
+$username=$_POST['username'];
+$password=$_POST['password'];
+$sql="select count(*) from login where username='".$username."'and password='".$password."'";
+$inter_res=mysqli_query($dbcon,$sql);
+$res=mysqli_fetch_array($inter_res);
+if($res[0]>0)
+{
+	$_SESSION['username']=$username;
+	header("Location:welcome.php");
+}
+else
+	header("Location:loginerror.php");
+?>

@@ -1,0 +1,43 @@
+<?php
+ob_start();
+include_once("dbconnect.php");
+$name="";
+$email="";
+$phone="";
+$state="";
+$city="";
+$pinncode="";
+$carmanf="";
+$model="";
+$year="";
+$service="";
+$hear="";
+$comment="";
+$sql="";
+$name=ucwords(strtolower(trim($_POST['name'])));
+$email=trim($_POST['email']);
+$phone=trim($_POST['phone']);
+$state=ucwords(strtolower(trim($_POST['state'])));
+$city=ucwords(strtolower(trim($_POST['city'])));
+$pincode=trim($_POST['pincode']);
+$carmanf=ucwords(strtolower(trim($_POST['carmanf'])));
+$model=ucwords(strtolower(trim($_POST['model'])));
+$year=trim($_POST['year']);
+$service=ucwords(strtolower(trim($_POST['service'])));
+$hear=ucwords(strtolower(trim($_POST['hear'])));
+$comment=ucwords(strtolower(trim($_POST['comment'])));
+$target_dir="fimg/";
+$target_filename=$target_dir.basename($_FILES["carimage"]["name"]);
+if(move_uploaded_file($_FILES["carimage"]["tmp_name"],$target_filename))
+{
+	$sql="insert into services values('".$name."','".$email."','".$phone."','".$state."','".$city."','".$pincode."','".$carmanf."','".$model."','".$year."','".$service."','".$hear."','".$comment."','".$target_filename."')";
+	if(mysqli_query($dbcon,$sql))
+	{
+		header("Location:form.php?msg='Success'");
+	}
+	else
+		echo "Server Error.Try Again Later!";
+}
+else
+	echo "Server Error.Try Again Later!";
+?>
